@@ -1,0 +1,8 @@
+App\Models\Post::create(
+    [
+        'title' => 'Judul Kedua',
+        'slug' => 'judul-kedua',
+        'excerpt' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis corporis non voluptatum? Voluptate nostrum voluptatibus numquam necessitatibus voluptatem vero, distinctio, expedita facilis assumenda soluta pariatur consectetur quo ad similique facere consequatur nobis dolorum. Magnam at blanditiis vero tenetur officiis. Beatae itaque et nisi quidem ipsa suscipit excepturi quisquam voluptas libero?',
+        'body' => '<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis veniam tempora omnis ipsam perferendis voluptatibus iusto quo impedit tempore vitae libero at ratione, adipisci culpa provident! Quia deleniti culpa quisquam.</p><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores reiciendis est eius assumenda provident dolor qui necessitatibus delectus natus inventore, ipsum fuga rem harum, voluptatum quasi ab. Cumque, ullam cupiditate.</p><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, architecto? Ipsa vel recusandae odit? Quae ab in exercitationem rerum optio, amet mollitia nobis eveniet enim laudantium alias, vitae sapiente atque.</p>'
+    ]
+)

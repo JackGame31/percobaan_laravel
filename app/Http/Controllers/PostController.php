@@ -13,10 +13,10 @@ class PostController extends Controller
         ]);
     }
 
-    public function show($slug){
+    public function show(Post $post){ //syarat binding harus sama nama parameter dengan {post} di route. Tujuannya untuk menghindari penebakan
         return view('post', [
             "title" => "Single Post",
-            "post" => Post::find($slug)
+            "post" => $post //menyingkatkan Post::find($slug)
         ]);
     }
 }
