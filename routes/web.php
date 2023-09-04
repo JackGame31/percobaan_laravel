@@ -53,6 +53,7 @@ Route::get('categories', function(){
 // halaman login
 Route::get('login', [LoginController::class, 'index']);
 Route::get('register', [RegisterController::class, 'index']);
+Route::post('register', [RegisterController::class, 'store']);
 
 // Sudah tidak dipakai lagi setelah mengakses category dan author dengan request
 // Route::get('categories/{category:slug}', function(Category $category){
