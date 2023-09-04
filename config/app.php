@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => env('FAKER_LOCALE', 'en_US'), //maksudnya ketika di environment tidak ditemukan faker local, default ke en_US
 
     /*
     |--------------------------------------------------------------------------
