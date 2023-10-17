@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -50,10 +51,22 @@ Route::get('categories', function(){
     ]);
 });
 
-// halaman login
-Route::get('login', [LoginController::class, 'index']);
-Route::get('register', [RegisterController::class, 'index']);
+// halaman register
+// tujuan menambahkan middleware guest adalah untuk memastikan yang bisa masuk ke route ini kalau belum login/guest
+// kalau tidak lolos middleware, akan diarahkan ke route default
+Route::get('register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('register', [RegisterController::class, 'store']);
+
+// halaman login
+// kalau user berusaha untuk paksa login dashboard, maka akan kita langsung otomatiskan route ke login (yang dibawah ini)
+// ini diatur oleh Authenticate.php
+Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('login', [LoginController::class, 'authenticate']);
+Route::post('logout', [LoginController::class, 'logout']);
+
+//dashboard
+// menandakan kalau ini hanya bisa diakses oleh orang-orang yang memiliki akses
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 // Sudah tidak dipakai lagi setelah mengakses category dan author dengan request
 // Route::get('categories/{category:slug}', function(Category $category){
