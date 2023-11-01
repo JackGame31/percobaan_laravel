@@ -68,4 +68,12 @@ class Post extends Model
         //menambahkan user_id untuk memberitau kalau ini sebenarnya yang dicari itu user_id, karena biasanya akan dicari berdasarkan nama functionnya
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // ini memaksa, setiap route yang mengarah ke post, maka yang diambil adalah slug, bukan id
+    // fitur ini dipakai waktu view index posts klik detail, awalnya mengarah ke id, sekarang mengarah ke slug
+    // karena defaultnya, controller resource mencari berdasarkan id, tidak bisa slug
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

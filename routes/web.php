@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -8,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +66,12 @@ Route::post('logout', [LoginController::class, 'logout']);
 
 //dashboard
 // menandakan kalau ini hanya bisa diakses oleh orang-orang yang memiliki akses
-Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('dashboard', function(){
+    return view('dashboard.index');
+})->middleware('auth');
+// ini route khusus untuk CRUD, dari pada membuat semua CRUD satu-satu route, hanya buat satu route saja (dinamakan resource)
+// cek class DashboardPostController sebagai salah satu controller resource
+Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');
 
 // Sudah tidak dipakai lagi setelah mengakses category dan author dengan request
 // Route::get('categories/{category:slug}', function(Category $category){
