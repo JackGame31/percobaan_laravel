@@ -8,7 +8,7 @@
 
     {{-- alert --}}
     @if(session()->has('success'))
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-success col-lg-8" role="alert">
             {{ session('success') }}
         </div>
     @endif
@@ -33,9 +33,23 @@
                         <td>{{ $post->title }}</td>
                         <td>{{ $post->category->name }}</td>
                         <td>
+                            {{-- Posts --}}
                             <a href="/dashboard/posts/{{ $post->slug }}" class="badge bg-info"><i class="bi bi-eye-fill fs-6"></i></a>
-                            <a href="" class="badge bg-warning"><i class="bi bi-pen-fill fs-6"></i></a>
-                            <a href="" class="badge bg-danger"><i class="bi bi-x-circle fs-6"></i></i></a>
+
+                            {{-- Edit --}}
+                            {{-- Aturan default kalau mau akses edit --}}
+                            {{-- Kalau mau lihat semua list, maka bisa ketik di terminal "php artisan route:list" --}}
+                            <a href="/dashboard/posts/{{ $post->slug }}/edit" class="badge bg-warning"><i class="bi bi-pen-fill fs-6"></i></a>
+
+                            {{-- Delete --}}
+                            {{-- form hanya bisa post saja --}}
+                            <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
+                                {{-- kita bajak ubah method menjadi delete --}}
+                                @method('delete')
+                                @csrf
+                                {{-- javascript simpel seperti log confirm --}}
+                                <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="bi bi-x-circle fs-6"></i></button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
