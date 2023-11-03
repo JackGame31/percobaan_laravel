@@ -99,6 +99,8 @@
             display: block !important;
         }
     </style>
+
+    @yield('head')
 </head>
 
 <body>

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 // Membuat controller tipe resource, untuk langsung CRUD otomatis dibuat
 // Jika mengarah kepada model, bisa ditambahkan juga (saat ini, yang diarahkan adalah Post)
@@ -26,7 +29,9 @@ class DashboardPostController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.posts.create', [
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -34,7 +39,21 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            // unique:posts artinya di tabel posts, kolom slug harus unique
+            'slug' => 'required|unique:posts',
+            'category_id' => 'required',
+            'body' => 'required'
+        ]);
+
+        $validatedData['user_id'] = auth()->user()->id;
+        // untuk membatasi karakter. Kalaumelebihi 200, diganti dengan ...
+        // menggunakan strip tags untuk menghilangkan tag html
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200, '...');
+
+        Post::create($validatedData);
+        return redirect('/dashboard/posts')->with('success', 'New post has been added!');
     }
 
     /**
@@ -73,5 +92,17 @@ class DashboardPostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    // function untuk konversi title menjadi slug
+    public function checkSlug(Request $request)
+    {
+        // artinya, mau membuat slug dari model Post
+        // kolom yang mau disimpan slugnya namanya 'slug'
+        // dan yang mau dikonversi menjadi slug adalah request title
+        // request didapat dari create.blade.php dengan javascript api request key title
+        // kenapa harus connect model/database? karena ingin dicek apakah ada slug yang sama di dalam database
+        $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+        return response()->json(['slug' => $slug]);
     }
 }

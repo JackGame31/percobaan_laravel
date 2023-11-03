@@ -69,6 +69,8 @@ Route::post('logout', [LoginController::class, 'logout']);
 Route::get('dashboard', function(){
     return view('dashboard.index');
 })->middleware('auth');
+// untuk mengakses function conversi title jadi slug
+Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 // ini route khusus untuk CRUD, dari pada membuat semua CRUD satu-satu route, hanya buat satu route saja (dinamakan resource)
 // cek class DashboardPostController sebagai salah satu controller resource
 Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');

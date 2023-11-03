@@ -25,7 +25,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/posts') ? 'active' : '' }}" href="/dashboard/posts">
+                    {{-- menambah * setelah post, menandakan, apapun yang di depan post, akan dianggap aktif --}}
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/posts*') ? 'active' : '' }}" href="/dashboard/posts">
                         <i class="bi bi-file-earmark-text"></i>
                         My Posts
                     </a>

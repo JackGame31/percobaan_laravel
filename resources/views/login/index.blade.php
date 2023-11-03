@@ -1,6 +1,12 @@
 @extends('layouts.main')
 
 @section('container')
+    <style>
+        .invalid-feedback {
+            display: block;
+        }
+    </style>
+
     <div class="row justify-content-center">
         <div class="col-lg-5">
             {{-- menambahkan alert ketika sudah berhasil login --}}
@@ -26,8 +32,8 @@
                     @csrf
                     <div class="form-floating">
                         {{-- menambah autofocus untuk otomatis type ketika login --}}
-                        <input type="email" name="email" class="form-control"
-                            id="email" placeholder="name@example.com" autofocus required value="{{ old('email') }}">
+                        <input type="email" name="email" class="form-control" id="email"
+                            placeholder="name@example.com" autofocus required value="{{ old('email') }}">
                         <label for="email">Email address</label>
                     </div>
                     <div class="form-floating">

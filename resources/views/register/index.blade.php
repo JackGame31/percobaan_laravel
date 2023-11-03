@@ -1,6 +1,12 @@
 @extends('layouts.main')
 
 @section('container')
+    <style>
+        .invalid-feedback {
+            display: block;
+        }
+    </style>
+
     <div class="row justify-content-center">
         <div class="col-lg-5">
             <main class="form-registration w-100 m-auto">

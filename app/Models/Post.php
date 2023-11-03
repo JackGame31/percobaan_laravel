@@ -5,9 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+// mau memakai fitur slug, otomatis mengubah misal "Hello World" menjadi "hello-world"
+// coba lihat di github internet eloquent sluggable
+// install dulu "composer require cviebrock/eloquent-sluggable"
+use Cviebrock\EloquentSluggable\Sluggable;
+
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     // protected $fillable = ['title', 'excerpt', 'body']; // artinya boleh isi itu
     protected $guarded = ['id']; //artinya tidak boleh isi ID
@@ -75,5 +80,16 @@ class Post extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    // untuk function sluggable, penjelasan ada di atas
+    // source mengarah ke column table mana yang ingin dikonversi menjadi slug
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 }
