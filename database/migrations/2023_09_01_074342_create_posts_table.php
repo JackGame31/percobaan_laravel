@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('image')->nullable(); // menyimpan alamat gambar
             $table->text('excerpt');
             $table->text('body');
             $table->timestamp('published_at')->nullable();

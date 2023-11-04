@@ -44,8 +44,15 @@ class DashboardPostController extends Controller
             // unique:posts artinya di tabel posts, kolom slug harus unique
             'slug' => 'required|unique:posts',
             'category_id' => 'required',
+            'image' => 'image|file|max:1024', // maksimal 1MB
             'body' => 'required'
         ]);
+
+        // jika ada image, tambahkan ke data yang tervalidasi, karena tidak tersimpan validated data
+        if ($request->file('image'))
+        {
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         // untuk membatasi karakter. Kalaumelebihi 200, diganti dengan ...

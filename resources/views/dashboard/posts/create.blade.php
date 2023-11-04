@@ -13,13 +13,15 @@
 
     <div class="col-lg-8">
         {{-- method post digabung dengan dashboard/posts akan mengarah kepada resource controller tipe store --}}
-        <form method="post" action="/dashboard/posts" class="mb-5">
+        {{-- menambah atribute multipart/form-data. tujuannya adalah ketika menerima request file, bisa diproses (wajib ada) --}}
+        <form method="post" action="/dashboard/posts" class="mb-5" enctype="multipart/form-data">
             @csrf
 
             {{-- Title --}}
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" @error('title') is-invalid @enderror id="title" name="title" required autofocus value="{{ old('title') }}">
+                <input type="text" class="form-control" @error('title') is-invalid @enderror id="title" name="title"
+                    required autofocus value="{{ old('title') }}">
                 @error('title')
                     <div class="invalid-feedback d-block">
                         {{ $message }}
@@ -31,7 +33,8 @@
             <div class="mb-3">
                 <label for="slug" class="form-label">Slug</label>
                 {{-- ditambah disabled readonly untuk tidak bisa diedit user, opsional --}}
-                <input type="text" class="form-control" @error('slug') is-invalid @enderror id="slug" name="slug" required value="{{ old('slug') }}">
+                <input type="text" class="form-control" @error('slug') is-invalid @enderror id="slug" name="slug"
+                    required value="{{ old('slug') }}">
                 @error('slug')
                     <div class="invalid-feedback d-block">
                         {{ $message }}
@@ -44,13 +47,24 @@
                 <label for="category" class="form-label">Category</label>
                 <select class="form-select" name="category_id">
                     @foreach ($categories as $category)
-                        @if(old('category_id') == $category->id)
+                        @if (old('category_id') == $category->id)
                             <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                         @else
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endif
                     @endforeach
                 </select>
+            </div>
+
+            {{-- Upload File --}}
+            <div class="mb-3">
+                <label for="image" class="form-label" @error('image') is-invalid @enderror>Post Image</label>
+                <input class="form-control" type="file" id="image" name="image">
+                @error('image')
+                    <div class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             {{-- Text menggunakan Trix --}}
@@ -60,7 +74,7 @@
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
                 {{-- ketika menggunakan trix, usahakan id dan input memiliki nama yang sama --}}
-                <input id="body" type="hidden" name="body">
+                <input id="body" type="hidden" name="body" value="{{ old('body') }}">
                 <trix-editor input="body"></trix-editor>
             </div>
 

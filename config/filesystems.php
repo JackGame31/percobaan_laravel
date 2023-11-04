@@ -13,6 +13,8 @@ return [
     |
     */
 
+    // ini adalah tempat default untuk menyimpan file
+    // jika env file system disk tidak ada, maka akan menggunakan local
     'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
@@ -28,6 +30,9 @@ return [
     |
     */
 
+    // menerima 3, yaitu local, public, dan s3. Perlakuannya beda-beda
+    // agar publik bisa diakses luar, maka perlu di link dengan folder public
+    // ketik "php artisan storage:link" di terminal
     'disks' => [
 
         'local' => [
