@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 // Membuat controller tipe resource, untuk langsung CRUD otomatis dibuat
@@ -97,6 +98,7 @@ class DashboardPostController extends Controller
         $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
+            'image' => 'image|file|max:1024', // maksimal 1MB
             'body' => 'required'
         ];
 
@@ -108,6 +110,15 @@ class DashboardPostController extends Controller
 
         // validasi setelah rules dibuat
         $validatedData = $request->validate($rules);
+
+        // jika ada image baru (ditandai dengan adanya value input image)
+        if ($request->file('image'))
+        {
+            // cek apakah ada gambar lama. kalau ada, dihapus
+            if ($request->oldImage)
+                Storage::delete($request->oldImage);
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         // update
         Post::where('id', $post->id)->update($validatedData);
@@ -121,6 +132,9 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // menghapus image (kalau ada)
+        if ($post->image)
+            Storage::delete($post->image);
         Post::destroy($post->id);
         return redirect('/dashboard/posts')->with('success', 'Post has been deleted!');
     }
