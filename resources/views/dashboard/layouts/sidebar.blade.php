@@ -3,8 +3,8 @@
         aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                data-bs-target="#sidebarMenu" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
+                aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav flex-column">
@@ -16,8 +16,8 @@
                         cara baru cek active :
                         Memakai Request::is('dashboard') ? 'active' : ''
                         --}}
-                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page"
-                        href="/dashboard">
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard') ? 'active' : '' }}"
+                        aria-current="page" href="/dashboard">
                         <svg class="bi">
                             <use xlink:href="#house-fill" />
                         </svg>
@@ -26,7 +26,8 @@
                 </li>
                 <li class="nav-item">
                     {{-- menambah * setelah post, menandakan, apapun yang di depan post, akan dianggap aktif --}}
-                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/posts*') ? 'active' : '' }}" href="/dashboard/posts">
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/posts*') ? 'active' : '' }}"
+                        href="/dashboard/posts">
                         <i class="bi bi-file-earmark-text"></i>
                         My Posts
                     </a>
@@ -45,6 +46,22 @@
                     </form>
                 </li>
             </ul>
+
+            {{-- baris ini "can be accessed" dengan orang yang kita mau (pakai gate) --}}
+            @can('admin')
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Administrator</span>
+                </h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/categories*') ? 'active' : '' }}"
+                            aria-current="page" href="/dashboard/categories">
+                            <i class="bi bi-grid"></i>
+                            Post Categories
+                        </a>
+                    </li>
+                </ul>
+            @endcan
         </div>
     </div>
 </div>

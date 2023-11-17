@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -54,6 +55,7 @@ Route::get('categories', function(){
 // halaman register
 // tujuan menambahkan middleware guest adalah untuk memastikan yang bisa masuk ke route ini kalau belum login/guest
 // kalau tidak lolos middleware, akan diarahkan ke route default
+// route default bisa diatur di app/Http/Middleware/RedirectIfAuthenticated.php
 Route::get('register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('register', [RegisterController::class, 'store']);
 
@@ -74,6 +76,10 @@ Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'check
 // ini route khusus untuk CRUD, dari pada membuat semua CRUD satu-satu route, hanya buat satu route saja (dinamakan resource)
 // cek class DashboardPostController sebagai salah satu controller resource
 Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');
+// except mencegah route show dipakai, karena tidak diperlukan
+// awalnya menggunakan middleware auth, tapi karena sudah ada middleware buatan sendiri, maka menggunakan middleware('admin') di kernel
+// karena kita menggunakan gate untuk lebih fleksibel (ingin sidebar juga hilang)m kita bisa pakai authorize di controller (lihat AdminCategoryController)
+Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show')->middleware('admin');
 
 // Sudah tidak dipakai lagi setelah mengakses category dan author dengan request
 // Route::get('categories/{category:slug}', function(Category $category){
